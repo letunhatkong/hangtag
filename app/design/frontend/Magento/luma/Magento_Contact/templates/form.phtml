@@ -1,0 +1,101 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<div id="googleMapWrapper">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d423283.3363091215!2d-118.69191414134724!3d34.02075039799763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos+Angeles%2C+CA%2C+USA!5e0!3m2!1sen!2s!4v1458556355589" width="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="info-contactUs">
+            <h2>CONTACT INFORMATION</h2>
+            <p>If you have any question, please contact us to below.</p>
+            <h4>12345 ABC STREET <br>LOSANGELES, CA 90021</h4>
+            <p>TEL: 000.000.0000 <br>MAIL: 000.000.0000</p>
+            <p>Mon-Fri 11AM - 8PM</p>
+        </div>
+    </div>
+    <div class='col-md-6'>
+        <div id="line-before-contactForm" class="hidden-md hidden-lg"></div>
+        <div class="info-contactUs">
+            <h2>CONTACT FORM</h2>
+        </div>
+        <form  class="form contact"
+              action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+              id="contact-form"
+              method="post"
+              data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+              data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset">       
+                <!-- <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Write Us') ?></span></legend><br />
+                <div class="field note no-label"><?php /* @escapeNotVerified */ echo __('Jot us a note and we’ll get back to you as quickly as possible.') ?></div> -->
+                <div class="field name required">
+                    <label class="label" for="name"><span><?php /* @escapeNotVerified */ echo __('Name') ?></span></label>
+                    <div class="control">
+                        <input name="name" id="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                    </div>
+                </div>
+                <div class="field email required">
+                    <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                    <div class="control">
+                        <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+                    </div>
+                </div>
+                <!-- <div class="field telephone">
+                    <label class="label" for="telephone"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+                    <div class="control">
+                        <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" value="" class="input-text" type="text" />
+                    </div>
+                </div> -->
+                <div class="field comment required">
+                    <label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('Inquiry') ?></span></label>
+                    <div class="control">
+                        <textarea name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('Inquiry') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                    </div>
+                </div>
+                <?php echo $block->getChildHtml('form.additional.info'); ?>
+                   
+
+                 <div class="field capcha required">
+                    <label class="label" for="capcha"><span><?php /* @escapeNotVerified */ echo __('Enter the code in the box below') ?></span></label>
+                    <div class="control">
+                        <input name="capcha" id="capcha" title="<?php /* @escapeNotVerified */ echo __('Capcha') ?>" class="input-text" type="text" data-validate="{required:true, 'equalTo':'#recapcha'}"/>
+                    </div>                 
+                </div>
+                <input name="recapcha" id="recapcha" class="input-text" type="text" readonly="true" />
+
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <input type="hidden" name="hideit" id="hideit" value="" />
+                    <button type="submit" title="<?php /* @escapeNotVerified */ echo __('SEND') ?>" class="action submit primary">
+                        <span><?php /* @escapeNotVerified */ echo __('SEND') ?></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function($) {
+            function initCapcha() {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                for( var i=0; i < 7; i++ ) {
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+                return text;
+            }          
+            $("#recapcha").val(initCapcha());
+        }); 
+    });
+</script>

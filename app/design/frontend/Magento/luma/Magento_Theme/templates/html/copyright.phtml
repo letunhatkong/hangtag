@@ -1,0 +1,51 @@
+<?php 
+
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+$currentStore = $storeManager->getStore();
+$baseUrl = $currentStore->getBaseUrl();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+
+?>
+
+<div id="footer">
+	<div class="col-1150" role="navigation">
+	    <div class="row">
+	      	<div class="col-xs-6 col-sm-4 col-md-2">
+		        <p class="ft_tit">CUSTOMER CARE</p>
+		        <a href="#"><p class="ft_page">FAQ</p></a>
+		        <a href="#"><p class="ft_page">Shipping</p></a>
+		        <a href="#"><p class="ft_page">Returns</p></a>
+		        <a href="<?= $baseUrl ?>contact"><p class="ft_page">Contact Us</p></a>
+	      	</div>
+	      	<div class="col-xs-6 col-sm-4 col-md-2">
+		        <p class="ft_tit">POLICY</p>
+		        <a href="<?= $baseUrl ?>customer/account/login"><p class="ft_page">Join / Sign In</p></a>
+		        <a href="#"><p class="ft_page">Order History</p></a>
+		        <a href="#"><p class="ft_page">Shopping Bag</p></a>
+	      	</div>
+	      	<div class="col-xs-12 col-sm-4 col-md-2">
+		        <p class="ft_tit">SOCIAL</p>
+		        <div class="ft_social">
+		          <a href="#">
+		            <img src="<?= $mediaUrl ?>images/social/fb.png" />
+		          </a>
+		          <a href="#">
+		            <img src="<?= $mediaUrl ?>images/social/tw.png" />
+		          </a>
+		          <a href="#">
+		            <img src="<?= $mediaUrl ?>images/social/gg.png" />
+		          </a>
+		        </div>
+	      	</div>
+	      	<div class="clearfix visible-sm"></div>
+
+	      	<div class="col-xs-12 col-sm-6 col-md-3">
+	      		<div id="ft-des-company">Hang Tag And Label has been serving los Angeles fashion disctrict since 1994. The growth of company is not only due to providing customers with the best value and quality products, but also because of the commitment to prividing excellent customer service.</div>
+	      	</div>
+	      	<div class="col-xs-12 col-sm-6 col-md-3" id="ft_cpr">
+	        	© Copyright 2015 HangtagAndLabel.com  
+	     	</div>
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$target = $block->getTarget();
+$label = $block->getLabel();
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of \Magento\Framework\App\ObjectManager
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+$currentStore = $storeManager->getStore();
+$baseUrl = $currentStore->getBaseUrl();
+?>
+
+<a class="action <?php echo $target?>" href="<?= $baseUrl ?>"><span>HANGTAG & LABEL</span></a>

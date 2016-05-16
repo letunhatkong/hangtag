@@ -1,0 +1,201 @@
+<?php 
+	$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+	$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+	$currentStore = $storeManager->getStore();
+	$baseUrl = $currentStore->getBaseUrl();
+	$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+	$linkUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+?>
+
+
+<div id="homeSlider" class="carousel slide homeSlider" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#homeSlider" data-slide-to="0" class="active"></li>
+    <li data-target="#homeSlider" data-slide-to="1"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="<?= $mediaUrl?>images/banner/bn1.png" />
+      <div class="carousel-caption"></div>
+    </div>
+
+    <div class="item">
+      <img src="<?= $mediaUrl?>images/banner/bn2.png" />
+      <div class="carousel-caption"></div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a href="#homeSlider" role="button" data-slide="prev">
+    <div id="prevButton" aria-hidden="true">
+        <img src="<?= $mediaUrl?>images/pagination/left.png" />
+    </div>
+  </a>
+  <a href="#homeSlider" role="button" data-slide="next">
+    <div id="nextButton" aria-hidden="true">
+        <img src="<?= $mediaUrl?>images/pagination/right.png" />
+    </div>
+  </a>
+</div>
+<div class="clearfix pad100"></div>
+<div class="clearfix pad50"></div>
+
+<script type="text/javascript">
+  require([ 'jquery', 'jquery/ui'], function($){ 
+    $(document).ready(function($) {
+      $(window).load(function() {  
+        $('#homeSlider').carousel({
+          interval: 3000,
+        });
+      });
+    }); 
+  });
+</script>
+
+
+<?php // Get Latest Products and Featured Products
+
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$productCollection = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+$collection = $productCollection->create()
+	->addAttributeToSelect('*')
+	->addFieldToFilter("status", "1")
+	->setOrder('created_at', 'DESC') // or created_at
+	->load(); 
+
+$latestAr = []; $featuredAr = [];
+
+foreach ($collection as $product){
+	$item = array(
+		'getId' => $product->getId(),
+		'getName' => $product->getName(), 
+		'getPrice' => floatval($product->getPrice()),
+		'priceString' => "$".number_format($product->getPrice(), 2),
+		'getStatus' => $product->getStatus(),
+		'thumbnail' => $mediaUrl .'catalog/product'. $product->getThumbnail(),
+		'getSku' => $product->getStatus(),
+		'getIsFeatured' => $product->getIsFeatured(),
+		'getProductUrl' => $product->getProductUrl(),
+	);
+  	array_push($latestAr, $item);
+  	if ($product->getIsFeatured() == 1) array_push($featuredAr, $item);
+}
+
+?>
+
+
+<div id="latestSlider" class="carousel slide homeSlider" data-ride="carousel">
+	<div class="headSecHome">
+		<div>
+			<div class="lineSecHome"></div>
+			<div class="headingHome">
+				<a href="#latestSlider" role="button" data-slide="prev">
+					<span class="leftLatestItem" aria-hidden="true"></span>
+				</a>
+				<span>Latest Items</span>
+				<a href="#latestSlider" role="button" data-slide="next">
+					<span class="rightLatestItem" aria-hidden="true"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix pad40"></div>
+
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+	<?php $countLatest = count($latestAr); $i = 1; ?>
+	<?php foreach ($latestAr as $item): ?>
+		<?php if ($i % 4 == 1) { ?>
+			<div class="item row <?php echo ($i == 1) ? 'active':''; ?>">
+		<?php } ?>
+
+				<div class="col-xs-6 col-sm-3">
+					<a href="<?= $item['getProductUrl'] ?>">
+						<div class="img-resp imgPad100">
+							<img src="<?= $item['thumbnail'] ?>" alt="<?= $item['getName'] ?>">
+						</div>
+						<p class="item-home-tit"><?= $item['getName'] ?></p>
+						<p class="item-home-price"><?= $item['priceString'] ?></p>
+					</a>	
+					<div class="pad20 visible-xs"></div>				
+				</div>
+
+		<?php if ($i % 4 == 0 || $i == $countLatest) { ?>
+			</div>
+		<?php } ?>
+
+		<?php $i++; ?>
+	<?php endforeach; ?>
+		
+	</div>
+ 	<!-- # Wrapper for slides -->
+ 	<div class="clearfix pad100"></div>
+ 	<div class="clearfix pad50"></div> 	
+</div>
+
+	
+	
+<div id="featuredSlider" class="carousel slide homeSlider" data-ride="carousel">
+	<div class="headSecHome">
+		<div>
+			<div class="lineSecHome"></div>
+			<div class="headingHome">
+				<a href="#featuredSlider" role="button" data-slide="prev">
+					<span class="leftLatestItem" aria-hidden="true"></span>
+				</a>
+				<span>Featured Items</span>
+				<a href="#featuredSlider" role="button" data-slide="next">
+					<span class="rightLatestItem" aria-hidden="true"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix pad40"></div>
+
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+	<?php $countFeatured = count($featuredAr); $i = 1; ?>
+	<?php foreach ($featuredAr as $item): ?>
+		<?php if ($i % 4 == 1) { ?>
+			<div class="item row <?php echo ($i == 1) ? 'active':''; ?>">
+		<?php } ?>
+
+				<div class="col-xs-6 col-sm-3">
+					<a href="<?= $item['getProductUrl'] ?>">
+						<div class="img-resp imgPad100">
+							<img src="<?= $item['thumbnail'] ?>" alt="<?= $item['getName'] ?>">
+						</div>
+						<p class="item-home-tit"><?= $item['getName'] ?></p>
+						<p class="item-home-price"><?= $item['priceString'] ?></p>
+					</a>		
+					<div class="pad20 visible-xs"></div>				
+				</div>
+
+		<?php if ($i % 4 == 0 || $i == $countLatest) { ?>
+			</div>
+		<?php } ?>
+
+		<?php $i++; ?>
+	<?php endforeach; ?>		
+	</div>
+ 	<!-- # Wrapper for slides -->
+ 	<div class="clearfix pad100"></div> 	
+ 	<div class="clearfix pad50"></div> 	
+</div>
+
+<script type="text/javascript">
+  require([ 'jquery', 'jquery/ui'], function($){ 
+    $(document).ready(function($) {
+      	$('#latestSlider').carousel({
+          	interval: false
+        });  
+        $('#featuredSlider').carousel({
+          	interval: false
+        });
+
+    }); 
+  });
+</script>

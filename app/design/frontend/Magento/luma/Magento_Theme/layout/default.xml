@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Add html -->
+        <referenceContainer name="header.panel" htmlClass="panel header col-1150">
+            <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="report.bugs" remove="true"/>
+
+        <!-- Fix size logo -->
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_img_width" xsi:type="number">170</argument>
+                <argument name="logo_img_height" xsi:type="number">170</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Remove footer -->
+        <referenceContainer name="footer" remove="true"></referenceContainer>
+        <!-- Move Copyright -->
+        <move element="copyright" destination="before.body.end"/>
+
+        <!-- Remove search in top header -->
+        <referenceContainer name="top.search" remove="true" />
+        <referenceContainer name="div.sidebar.main" remove="true" />
+        <referenceContainer name="div.sidebar.additional" remove="true" />
+
+        <!-- Remove filter in category page -->
+        <referenceContainer name="catalog.leftnav" remove="true" />
+
+        <!-- Move miniCart to -->
+        <move element="minicart" as="minicart" before="header.links" destination="header.panel"/>
+        <!-- Add class -->
+        <referenceContainer name="header-wrapper" htmlClass="header content col-1150" />
+
+        <!-- JS -->
+        <block class="Magento\Framework\View\Element\Text" name="jscustom">         
+            <arguments>  
+                <argument name="text" xsi:type="string"><![CDATA[<script type="text/javascript" src="/hangtag/pub/js/carousel.js"></script>]]></argument>
+            </arguments>
+        </block>
+        <move element="jscustom" destination="before.body.end"/>
+      
+
+    </body>
+</page>
